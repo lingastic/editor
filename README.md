@@ -1,6 +1,6 @@
-# Cdbfly
+# Lingastic curriculum editor
 
-A Web GUI for postgres databases
+A tool to allow you to edit the Lingastic curriculum.
 
 # Installation
 
@@ -11,12 +11,11 @@ A Web GUI for postgres databases
 ### Set up your database and permissions
 
 In the following examples we assume that you have the following info for the database
-username: pagila
-database: pagdb
+username: lingastic_owner
+database: lingatic
 host: localhost
 port: 5432
 password: yourpassword
-and the database from https://github.com/devrimgunduz/pagila
 
 - as a db superuser typically 'postgres' do the following
 
@@ -24,10 +23,10 @@ and the database from https://github.com/devrimgunduz/pagila
 
 ```
 
-create user 'pagila' with password 'yourpassword';
-create database pagdb;
-grant all on database pagdb to pagila;
-\c pagdb;
+create user 'lingastic_owner' with password 'yourpassword';
+create database lingatic;
+grant all on database lingatic to lingastic_owner;
+\c lingatic;
 CREATE EXTENSION pgcrypto; -- Needed for authentication. This needs to be done by the superuser (ususally postgres)
 
 ```
@@ -37,53 +36,38 @@ CREATE EXTENSION pgcrypto; -- Needed for authentication. This needs to be done b
 For convenience you could also add to ~/.pgpass
 
 ```
-localhost:5432:pagdb:pagila:yourpassword
+localhost:5432:lingatic:lingastic_owner:yourpassword
 ```
 
 This way you're not prompted for the password each time, but consider your security model.
 
-- load the schema and the data
+- load the schema and the data TODO
 
 ```
-psql pagdb pagila < pagila/pagila-schema.sql
-psql pagdb pagila < pagila/pagila-data.sql
-psql pagdb pagila < setup.sql
-psql pagdb pagila < example/pagila_roles.sql
 ```
 
 Check your db and you should see something like the following.
 
 ```
-pagdb=> \dt
-             List of relations
- Schema |       Name       | Type  | Owner
-- CREATE EXTENSION pgcrypto; -- Needed for authentication
---------+------------------+-------+--------
- public | actor            | table | pagila
- public | address          | table | pagila
- public | category         | table | pagila
- public | city             | table | pagila
- public | country          | table | pagila
- public | customer         | table | pagila
- public | film             | table | pagila
- public | film_actor       | table | pagila
- public | film_category    | table | pagila
- public | inventory        | table | pagila
- public | language         | table | pagila
- public | payment          | table | pagila
- public | payment_p2020_01 | table | pagila
- public | payment_p2020_02 | table | pagila
- public | payment_p2020_03 | table | pagila
- public | payment_p2020_04 | table | pagila
- public | payment_p2020_05 | table | pagila
- public | payment_p2020_06 | table | pagila
- public | rental           | table | pagila
- public | staff            | table | pagila
- public | store            | table | pagila
-(21 rows)
+                List of relations
+ Schema |     Name      | Type  |      Owner
+--------+---------------+-------+-----------------
+ public | activities    | table | lingastic_owner
+ public | activity_type | table | lingastic_owner
+ public | chats         | table | lingastic_owner
+ public | lesson_type   | table | lingastic_owner
+ public | lesson_types  | table | lingastic_owner
+ public | lessons       | table | lingastic_owner
+ public | levels        | table | lingastic_owner
+ public | modules       | table | lingastic_owner
+ public | part_type     | table | lingastic_owner
+ public | parts         | table | lingastic_owner
+ public | parts_gen     | table | lingastic_owner
+ public | users         | table | lingastic_owner
+(
 ```
 
-- Load cdbfly.sql into that database
+- Load lingastic.sql into that database
 
 ### set up the backend
 
@@ -99,7 +83,7 @@ pagdb=> \dt
   export PGUSER=authenticator
   export PGHOST=localhost
   export PGPASSWORD=\${CDBFLY_PASS}
-  export PGDATABASE=pagila
+  export PGDATABASE=lingatic
 ```
 
 Notice that it relies on a file ~/.cdbfly to hold the password; You can put it in a different location, but will need to adjust run.sh.
@@ -195,7 +179,7 @@ Re;lase the "xxxxxxxxxxxxxx" values with the password for each role
 
 {
 "host": "localhost",
-"database": "pagila",
+"database": "lingatic",
 "roles": {
 "authenticator": "xxxxxxxxxxxxxxxxxxxxxxxxx
 "admin": "xxxxxxxxxxxxxxxxxxxxxxxxx",
