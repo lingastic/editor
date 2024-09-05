@@ -1,0 +1,112 @@
+<mat-grid-list cols="12" rowHeight="1:1">
+  <mat-grid-tile [colspan]="12" [rowspan]="1" *ngIf="error">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title> Error </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="error-card"> {{error}} </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="6" [rowspan]="5">
+    <mat-card class="dashboard-card">
+      <mat-card-header> </mat-card-header>
+      <mat-card-content>
+        <mat-toolbar color="basic">
+          <form class="example-form">
+            <mat-form-field>
+              <input
+                required
+                matInput
+                name="name"
+                placeholder="Enter Name"
+                [disabled]="!isInsert"
+                [(ngModel)]="name"
+              />
+            </mat-form-field>
+
+            <span class="toolbar-spacer"></span>
+            <mat-form-field>
+              <mat-select
+                [(ngModel)]="role"
+                required="true"
+                name="role"
+                placeholder="Enter Role"
+              >
+                <mat-option
+                  *ngFor="let role of schemaService.roles"
+                  [value]="role"
+                >
+                  {{role}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select
+                [(ngModel)]="language"
+                (selectionChange)="setLanguage()"
+                required="true"
+                name="language"
+                placeholder="Enter language"
+              >
+                <mat-option
+                  *ngFor="let language of languages"
+                  [value]="language"
+                >
+                  {{language}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+          <button
+            matTooltip="Run (ALT-Enter)"
+            mat-icon-button
+            color="primary"
+            (document:keydown.alt.enter)="run()"
+            (click)="run()"
+            color="primary"
+          >
+            <mat-icon aria-label="Run">play_arrow</mat-icon>
+          </button>
+
+          <span class="toolbar-spacer"></span>
+
+          <button
+            mat-icon-button
+            matTooltip="Save (CTRL-ALT-S}"
+            [disabled]="(this.name === '') || (this.role === '')"
+            (document:keydown.control.alt.S)="save()"
+            (click)="save()"
+            color="primary"
+          >
+            <mat-icon aria-label="Save">save</mat-icon>
+          </button>
+
+          <button
+            matTooltip="Open in new window"
+            mat-icon-button
+            color="primary"
+            (click)="newWindow()"
+            color="primary"
+          >
+            <mat-icon aria-label="New window">tv</mat-icon>
+          </button>
+        </mat-toolbar>
+        <ngx-monaco-editor
+          #editor
+          style="height: 80vh; overflow:auth"
+          [options]="editorOptions"
+          [(ngModel)]="text"
+        ></ngx-monaco-editor>
+      </mat-card-content>
+      <div #status></div>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="6" [rowspan]="5">
+    <mat-card class="dashboard-card">
+      <mat-card-content>
+        <app-page-view *ngIf="name" [inputName]="name"> </app-page-view>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

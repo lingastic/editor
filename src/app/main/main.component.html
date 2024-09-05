@@ -1,0 +1,83 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list cols="2">
+    <mat-grid-tile>
+      <mat-card class="main-card">
+        <mat-card-header>
+          <mat-card-title>
+            Tables
+          </mat-card-title>
+          <button
+            mat-icon-button
+            class="more-button"
+            [matMenuTriggerFor]="menu"
+            aria-label="Toggle menu"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>Expand</button>
+            <button mat-menu-item>Remove</button>
+          </mat-menu>
+        </mat-card-header>
+        <mat-card-content class="main-card-content">
+          <table
+            class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>
+                  Number of Rows<br />
+                  (Estimated)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let table of schemaService.tabs | keyvalue">
+                <td
+                  class="mdl-data-table__cell--non-numeric"
+                  routerLink="/resultSet/{{ table.key }}"
+                  class="resultSet"
+                >
+                  {{ glob.prettyWords(table.key) }}
+                </td>
+                <td>
+                  {{ table.value.number_rows }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="main-card">
+        <mat-card-header>
+          <mat-card-title>
+            Views
+          </mat-card-title>
+          <button
+            mat-icon-button
+            class="more-button"
+            [matMenuTriggerFor]="menu"
+            aria-label="Toggle menu"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>Expand</button>
+            <button mat-menu-item>Remove</button>
+          </mat-menu>
+        </mat-card-header>
+        <mat-card-content class="main-card-content">
+          <div *ngFor="let view of schemaService.views | keyvalue">
+            <div routerLink="/resultSet/{{ view.key }}" class="resultSet">
+              {{ glob.prettyWords(view.key) }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

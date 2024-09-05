@@ -1,0 +1,21 @@
+<div class="dialog-container">
+  <h3 mat-dialog-title>
+    {{isUpdate ? 'Update' : 'Create'}} {{data['tableInfo']['prettyName']}}
+  </h3>
+  <form class="mat-dialog-content" #formControl="ngForm" [formGroup]="form">
+    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+  </form>
+    <div mat-dialog-actions>
+      <button
+        [disabled]="!formControl.valid"
+        mat-raised-button
+        color="primary"
+        (click)="confirmCreate()"
+      >
+        {{isUpdate ? 'Update' : 'Create'}}
+      </button>
+      <button mat-raised-button (click)="cancel()" color="basic" tabindex="-1">
+        Cancel
+      </button>
+    </div>
+</div>

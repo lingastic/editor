@@ -1,0 +1,12 @@
+.mat-tree-node {
+  padding: 0px;
+  height: 8px;
+  min-height: 1.8rem;
+}
+.mat-icon-button {
+  width: 1.5rem;
+}
+
+.currentNode {
+  background: lightgray;
+}

@@ -1,0 +1,59 @@
+<div (window:resize)="makeResponsive()"></div>
+<div>
+  <div class="error-card">{{error}}</div>
+  <markdown [data]="output" ngPreserveWhitespaces> </markdown>
+  <mat-grid-list [cols]="cols" *ngIf="tiles" rowHeight="1:1">
+    <mat-grid-tile
+      *ngFor="let tile of tiles"
+      [colspan]="colCalculate(tile.cols)"
+      [rowspan]="tile.rows"
+    >
+      <mat-card
+        (click)="navigate(tile.link)"
+        class="dashboard-card"
+        [ngClass]="{'link': tile.link}"
+        [style.background-color]="tile.background"
+      >
+        <mat-card-header *ngIf="tile.title" (click)="navigate(tile.link)">
+          <mat-card-title>{{ tile.title }} </mat-card-title>
+          <div *ngIf="tile.avatar" mat-card-avatar class="card-icon">
+            <mat-icon [color]="tile.avatar.color" class="avatar-icon"
+              >{{tile.avatar.icon}}</mat-icon
+            >
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <markdown [data]="tile.content" *ngIf="tile.content"> </markdown>
+
+          <app-result-set
+            *ngIf="tile.relation || (tile.relProps && tile.relProps.query)"
+            [relProps]="tile.relProps"
+            [relName]="tile.relation"
+            [callback]="callBack"
+          >
+          </app-result-set>
+
+          <app-display *ngIf="tile.htmlName" [argName]="tile.htmlName">
+          </app-display>
+
+          <app-chart *ngIf="tile.chartProps" [chartProps]="tile.chartProps">
+          </app-chart>
+
+          <app-page-view
+            *ngIf="tile.placeHolder"
+            [inputName]="tile.placeHolder"
+          >
+          </app-page-view>
+          <app-tree
+            *ngIf="tile.tree"
+            [treeData]="{data: tile.tree.data, page:originalName, toggleTop:tile.tree.toggleTop}"
+          >
+          </app-tree>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
+</div>

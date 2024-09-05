@@ -1,0 +1,21 @@
+<div class="dialog-container login-form">
+  <h5 mat-dialog-title>
+    Login
+  </h5>
+  <form class="mat-dialog-content" #formControl="ngForm" [formGroup]="form">
+    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+    <div mat-dialog-actions>
+      <button
+        [disabled]="!formControl.valid"
+        mat-raised-button
+        color="primary"
+        (click)="login()"
+      >
+        Login
+      </button>
+      <button mat-raised-button (click)="cancel()" color="basic" tabindex="-1">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

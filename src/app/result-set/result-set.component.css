@@ -1,0 +1,92 @@
+.full-width-table {
+  width: 100%;
+}
+
+#add {
+  position: absolute;
+  top: 7%;
+  right: 40px;
+  z-index: 1000;
+}
+
+.mat-dialog-content {
+  padding: 3em;
+}
+
+.searchForm {
+  float: right;
+  width: 50vw;
+}
+
+.searchInput {
+  width: 30ch;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center {
+  margin: auto;
+  text-align: center;
+}
+
+.mat-row:hover {
+  background: whitesmoke;
+}
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mat-dialog-content {
+  overflow-y: auto;
+  max-height: 700px; /* Adjust this value as needed */
+}
+
+/* The dialog actions are always at the bottom */
+.mat-dialog-actions {
+  margin-top: auto;
+}
+
+/* Table headers and cells should truncate overflow text */
+.full-width-table {
+  width: 100%;
+  table-layout: fixed; /* Enforces the fixed layout */
+}
+
+/* Define a fixed max-width for table headers and cells */
+.full-width-table th,
+.full-width-table td {
+  max-width: 500px; /* Adjust the value as needed */
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 8px; /* Ensure some padding for better readability */
+}
+
+/* Ensure responsiveness for different screen sizes */
+@media (max-width: 1200px) {
+  .full-width-table th,
+  .full-width-table td {
+    max-width: 200px; /* Adjust the value as needed */
+  }
+}
+
+@media (max-width: 800px) {
+  .full-width-table th,
+  .full-width-table td {
+    max-width: 120px; /* Adjust the value as needed */
+  }
+}

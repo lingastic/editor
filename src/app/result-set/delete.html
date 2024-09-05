@@ -1,0 +1,22 @@
+<div class="container">
+  <h3 mat-dialog-title>Delete Row</h3>
+  <div mat-dialog-content>
+    <h3>
+      Delete row: {{data.row[data.row.primaryKeyField]}}
+    </h3>
+  </div>
+
+  <div mat-dialog-actions>
+    <button
+      mat-button
+      [mat-dialog-close]="1"
+      color="warn"
+      (click)="confirmDelete()"
+    >
+      Delete
+    </button>
+    <button mat-button (click)="onNoClick()" color="primary" tabindex="-1">
+      Cancel
+    </button>
+  </div>
+</div>

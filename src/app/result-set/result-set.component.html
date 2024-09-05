@@ -1,0 +1,159 @@
+<div>
+  <mat-grid-list cols="6" rowHeight="80px">
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <div class="mat-h2">{{ glob.prettyWords(relationName) }}</div>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="1"> </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="3" [rowspan]="1">
+      <div class="searchForm">
+        <mat-form-field class="searchInput">
+          <input
+            matInput
+            [(ngModel)]="searchTerm"
+            placeholder="Search {{ glob.prettyWords(relationName) }}"
+            type="text"
+            (keyup.enter)="doSearch()"
+          />
+          <button
+            mat-button
+            *ngIf="searchTerm"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="clearSearch()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <button
+          button="submit"
+          mat-raised-button
+          (click)="doSearch()"
+          color="primary"
+        >
+          <mat-icon matPrefix>search</mat-icon>
+          Search
+        </button>
+        <button
+          matTooltip="Supports regex, except '^' and '$'"
+          mat-icon-button
+          color="primary"
+        >
+          <mat-icon aria-label="Info">info</mat-icon>
+        </button>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
+
+  <button
+    *ngIf="this.tableInfo && this.tableInfo['canInsert']"
+    id="add"
+    mat-fab
+    color="primary"
+    (click)="addItem()"
+  >
+    <mat-icon aria-label="add">add</mat-icon>
+  </button>
+
+  <div class="center" *ngIf="dataSource.data.length === 0">
+    No rows in the table
+  </div>
+
+  <table mat-table class="full-width-table" matSort aria-label="Elements">
+    <ng-container matColumnDef="Actions" ngif="relationName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+      <td mat-cell *matCellDef="let row"></td>
+    </ng-container>
+
+    <div *ngFor="let column of this.displayedColumns">
+      <ng-container matColumnDef="{{ column }}">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ glob.prettyWords(column) }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <div *ngIf="column === 'actions' && relationName">
+            <button
+              matTooltip="View"
+              mat-icon-button
+              color="primary"
+              (click)="viewItem(row)"
+            >
+              <mat-icon aria-label="Eye">visibility</mat-icon>
+            </button>
+
+            <button
+              matTooltip="Update"
+              *ngIf="this.tableInfo.canUpdate"
+              mat-icon-button
+              color="primary"
+              (click)="updateItem(row)"
+            >
+              <mat-icon aria-label="Edit">edit</mat-icon>
+            </button>
+
+            <button
+              matTooltip="Delete"
+              *ngIf="this.tableInfo.canDelete"
+              mat-icon-button
+              color="primary"
+              (click)="deleteItem(row)"
+            >
+              <mat-icon aria-label="Delete">delete</mat-icon>
+            </button>
+
+            <button
+              [matTooltip]="relProps.button.title"
+              *ngIf="relProps && relProps.button"
+              mat-icon-button
+              color="primary"
+              (click)="relProps.button.callback(row)"
+            >
+              <mat-icon aria-label="relProps.button.title"
+                >{{ relProps.button.icon }}</mat-icon
+              >
+            </button>
+          </div>
+          <button
+            *ngIf="
+              relProps && relProps.column && column === relProps.column.title
+            "
+            mat-raised-button
+            button="submit"
+            mat-button
+            (click)="relProps.column.callback(row)"
+          >
+            {{ relProps.column.text }}
+          </button>
+          <div *ngIf="columnsInfo[column]?.foreignKeyCol; else plainColumn">
+            <!-- prettier-ignore -->
+            <a  href='' (click)="foreignTableLink(column, row[column])"> 
+              {{ row[column] }}
+            </a>
+          </div>
+          <ng-template #plainColumn> {{row[column] }} </ng-template>
+        </td>
+      </ng-container>
+    </div>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      id="row-{{ ii }}"
+      mat-row
+      *matRowDef="let row; let ii = index; columns: displayedColumns"
+    ></tr>
+  </table>
+
+  <mat-paginator
+    #paginator
+    [length]="paging.length"
+    [pageIndex]="paging.pageIndex"
+    [pageSize]="10"
+    [pageSizeOptions]="[10, 25, 50, 100, 250]"
+  >
+  </mat-paginator>
+</div>

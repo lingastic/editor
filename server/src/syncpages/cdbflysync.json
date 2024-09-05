@@ -1,0 +1,17 @@
+{
+  "rootDir": ".",
+  "dbPathDelimiter": ".",
+  "defaultUser": "anon",
+  "dbConfig": {
+    "host": "localhost",
+    "database": "pagila",
+    "user": "admin",
+    "password": "XXXXXXXXXXXXXXXXXXXX"
+  },
+  "fileExtension": {
+    "javascript": ".ejs",
+    "markdown": ".md",
+    "HTML": ".html",
+    "js": ".js"
+  }
+}

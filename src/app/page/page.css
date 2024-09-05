@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+.dashboard-card {
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+  margin: 2em auto;
+  overflow: auto;
+  padding: 10px;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.error-card {
+  color: red;
+}
+
+mat-card-title {
+  margin: 2vh;
+}
+
+.avatar-icon {
+  margin: 2vh;
+  transform: scale(2);
+}
+
+.loading-shade {
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .alert {
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  padding: 1em 1em;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .error {
+  background: rgb(255, 235, 230);
+}
+
+:host ::ng-deep .info {
+  background: rgb(222, 235, 255);
+}
+
+:host ::ng-deep .warn {
+  background: rgb(255, 250, 230);
+}
+
+:host ::ng-deep .success {
+  background: rgb(227, 252, 239);
+}
+
+:host ::ng-deep .alert .text {
+  padding-left: 1em;
+}

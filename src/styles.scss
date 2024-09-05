@@ -1,0 +1,18 @@
+@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink';
+@import 'bootstrap/dist/css/bootstrap.css';
+// Bootstrap based on https://www.amadousall.com/the-best-parts-of-bootstrap-you-are-missing-in-angular-material/
+a {
+  &.mat-button,
+  &.mat-raised-button,
+  &.mat-fab,
+  &.mat-mini-fab,
+  &.mat-list-item {
+    &:hover {
+      color: currentColor;
+    }
+  }
+}
+
+page-view button {
+  @extend .mat-raised-button;
+}

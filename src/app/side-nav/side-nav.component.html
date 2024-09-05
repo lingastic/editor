@@ -1,0 +1,125 @@
+<mat-sidenav-container class="sidenav-container" *ngIf="display">
+  <mat-sidenav
+    #drawer
+    class="sidenav mat-typography"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <section class="mat-typography">
+      <mat-nav-list>
+        <div *ngFor="let table of schemaService.relations | keyvalue">
+          <a
+            mat-list-item
+            *ngIf="table.value.schema !== 'cdbfly'"
+            routerLink="/resultSet/{{ table.key }}"
+            routerLinkActive="active"
+          >
+            {{ globService.prettyWords(table.key) }}
+          </a>
+        </div>
+      </mat-nav-list>
+    </section>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <button mat-button routerLink="/">
+        <mat-icon>home</mat-icon>
+      </button>
+
+      <button
+        mat-button
+        *ngIf="schemaService.isAdmin"
+        [matMenuTriggerFor]="adminMenu"
+        routerLinkActive="active-link"
+      >
+        Admin
+      </button>
+
+      <mat-menu #adminMenu="matMenu">
+        <button
+          *ngIf="schemaService.isAdmin"
+          mat-menu-item
+          routerLinkActive="active-link"
+          routerLink="/resultSet/cdbfly.page"
+        >
+          <mat-icon aria-label="page">article</mat-icon>Pages
+        </button>
+        <button
+          mat-menu-item
+          routerLinkActive="active-link"
+          routerLink="/page/system/files"
+        >
+          <mat-icon aria-label="file">file_present</mat-icon>Files
+        </button>
+        <button
+          *ngIf="schemaService.isAdmin"
+          mat-menu-item
+          routerLinkActive="active-link"
+          routerLink="/resultSet/cdbfly.template"
+        >
+          <mat-icon aria-label="templates">description</mat-icon>Templates
+        </button>
+        <button
+          *ngIf="schemaService.isAdmin"
+          mat-menu-item
+          routerLinkActive="active-link"
+          routerLink="/page/system/users"
+        >
+          <mat-icon aria-label="users">people</mat-icon>Users
+        </button>
+      </mat-menu>
+
+      <button
+        mat-button
+        routerLinkActive="active-link"
+        routerLink="/page/cdbfly/docs/1-intro"
+      >
+        Docs
+      </button>
+      <span *ngFor="let menuItem of customMenu; let ii = index">
+        <button mat-button [matMenuTriggerFor]="ii">{{ menuItem.name }}</button>
+        <mat-menu #ii="matMenu">
+          <span *ngFor="let subMenu of menuItem.children">
+            <button mat-menu-item routerLink="{{ subMenu.route }}">
+              {{ subMenu.name }}
+            </button>
+          </span>
+        </mat-menu>
+      </span>
+
+      <span class="navbar-spacer"></span>
+      <button
+        mat-button
+        *ngIf="
+          accountService.credentials && accountService.credentials['email'];
+          else loginButton
+        "
+        [matMenuTriggerFor]="userMenu"
+      >
+        {{ accountService.credentials['email'] }}
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="/logout">Logout</button>
+        <button mat-menu-item disabled>version: {{ version }}</button>
+      </mat-menu>
+      <ng-template #loginButton>
+        <button mat-button (click)="signup()">Signup</button>
+        <button mat-button (click)="login()">Login</button>
+      </ng-template>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<router-outlet *ngIf="!display"></router-outlet>
